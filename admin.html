@@ -9,14 +9,15 @@
         .admin-section {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             padding: 20px;
             margin-bottom: 30px;
+            border: var(--border);
         }
         
         .admin-tabs {
             display: flex;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--primary-color);
             margin-bottom: 20px;
         }
         
@@ -27,11 +28,17 @@
             border-bottom: none;
             margin-right: 5px;
             border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
         }
         
         .admin-tab.active {
             background-color: var(--primary-color);
             color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .admin-tab:hover:not(.active) {
+            background-color: rgba(247, 110, 119, 0.1);
             border-color: var(--primary-color);
         }
         
@@ -49,7 +56,81 @@
             padding: 20px;
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
+            border: var(--border);
+        }
+        
+        .admin-link {
+            background-color: #f0f8ff;
+            border-radius: 4px;
+            padding: 3px 8px !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+        
+        .admin-footer-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background-color: #f0f8ff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .admin-footer-btn:hover {
+            background-color: #e6f2ff;
+        }
+        
+        .admin-logged-in {
+            background-color: rgba(247, 110, 119, 0.2);
+            border-color: var(--primary-color);
+        }
+        
+        .gallery-preview {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .gallery-preview-container {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .gallery-preview-container .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-upload-container {
+            margin-bottom: 20px;
+        }
+        
+        #imagePreview {
+            max-width: 300px;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 4px;
+            display: none;
         }
     </style>
 </head>
@@ -98,6 +179,7 @@
                     <div class="admin-tab" data-tab="contactTab">연락처 정보</div>
                     <div class="admin-tab" data-tab="scheduleTab">동아리 일정</div>
                     <div class="admin-tab" data-tab="newsTab">공지사항</div>
+                    <div class="admin-tab" data-tab="galleryTab">갤러리 관리</div>
                 </div>
                 
                 <!-- 동아리 소개 관리 -->
@@ -236,6 +318,62 @@
                                 <button type="button" id="cancelNewsBtn" class="btn cancel-btn">취소</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+                
+                <!-- 갤러리 관리 -->
+                <div id="galleryTab" class="tab-content admin-section">
+                    <h3>갤러리 관리</h3>
+                    <div class="mb-3">
+                        <button id="addGalleryBtn" class="btn btn-primary">사진 추가</button>
+                    </div>
+                    
+                    <!-- 사진 추가/수정 폼 -->
+                    <div id="galleryForm" class="hidden mt-3">
+                        <h4 id="galleryFormTitle">사진 추가</h4>
+                        <form id="galleryEditForm">
+                            <input type="hidden" id="galleryId">
+                            
+                            <div class="form-group">
+                                <label for="galleryCategory">카테고리</label>
+                                <select id="galleryCategory" required>
+                                    <option value="first-aid">응급처치</option>
+                                    <option value="campaign">캠페인</option>
+                                    <option value="volunteer">봉사활동</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="galleryTitle">제목</label>
+                                <input type="text" id="galleryTitle" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="galleryDate">날짜</label>
+                                <input type="date" id="galleryDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="galleryLocation">장소</label>
+                                <input type="text" id="galleryLocation" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="galleryImage">이미지</label>
+                                <input type="file" id="galleryImage" accept="image/*" required>
+                                <img id="imagePreview" src="#" alt="미리보기">
+                            </div>
+                            
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary">저장</button>
+                                <button type="button" id="cancelGalleryBtn" class="btn cancel-btn">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- 갤러리 목록 -->
+                    <div id="galleryList" class="mt-3">
+                        <!-- 갤러리 아이템이 여기에 표시됩니다 -->
                     </div>
                 </div>
                 

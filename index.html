@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>푸른빛 보건동아리</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-link {
+            background-color: #f0f8ff;
+            border-radius: 4px;
+            padding: 3px 8px !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+        
+        .admin-footer-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background-color: #f0f8ff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .admin-footer-btn:hover {
+            background-color: #e6f2ff;
+        }
+        
+        .admin-logged-in {
+            background-color: rgba(247, 110, 119, 0.2);
+            border-color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -120,6 +150,9 @@
         <footer>
             <p>&copy; 2023 푸른빛 보건동아리. All rights reserved.</p>
             <p id="footerContact">문의: health.club@school.edu | 전화: 02-123-4567</p>
+            <p class="text-center">
+                <a href="admin.html" class="admin-footer-btn" id="adminFooterBtn">관리자 페이지</a>
+            </p>
         </footer>
     </div>
     
@@ -187,11 +220,15 @@
                 }
             }
             
-            // 관리자 링크 표시 제어
+            // 관리자 링크 스타일 변경 (로그인 상태에 따라)
             const isAdmin = sessionStorage.getItem('adminLoggedIn');
             const adminLink = document.querySelector('.admin-link');
-            if (!isAdmin) {
-                adminLink.style.display = 'none';
+            const adminFooterBtn = document.getElementById('adminFooterBtn');
+            
+            if (isAdmin) {
+                adminLink.classList.add('admin-logged-in');
+                adminFooterBtn.classList.add('admin-logged-in');
+                adminFooterBtn.textContent = '관리자 페이지 (로그인됨)';
             }
         });
     </script>

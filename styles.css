@@ -6,15 +6,16 @@
 }
 
 :root {
-    --primary-color: #4CAF50; /* 보건 - 초록색 계열 */
-    --secondary-color: #2196F3; /* 파란색 - 깨끗함, 신뢰감 */
-    --accent-color: #f44336; /* 빨간색 - 의료, 긴급 */
-    --background-color: #f5f5f5;
+    --primary-color: #F76E77; /* 메인 색상 - 핑크/살구색 */
+    --secondary-color: #455D3E; /* 보조 색상 - 어두운 녹색 */
+    --accent-color: #434F78; /* 강조 색상 - 남색 */
+    --background-color: #ffffff; /* 흰색 배경 */
     --text-color: #333;
     --light-gray: #ddd;
     --dark-gray: #666;
     --white: #fff;
-    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    --border: 1px solid #bbb;
 }
 
 body {
@@ -35,7 +36,7 @@ header {
     text-align: center;
     margin-bottom: 30px;
     padding: 20px 0;
-    border-bottom: 2px solid var(--light-gray);
+    border-bottom: 2px solid var(--primary-color);
     background-color: var(--white);
     box-shadow: var(--shadow);
 }
@@ -65,11 +66,13 @@ header h1 {
     padding: 5px 10px;
     border-radius: 4px;
     transition: all 0.3s;
+    border: 1px solid transparent;
 }
 
 .main-nav a:hover, .main-nav a.active {
     color: var(--primary-color);
-    background-color: rgba(76, 175, 80, 0.1);
+    background-color: rgba(247, 110, 119, 0.1);
+    border: 1px solid var(--primary-color);
 }
 
 /* 푸터 스타일 */
@@ -89,12 +92,13 @@ footer {
     box-shadow: var(--shadow);
     padding: 30px;
     margin-bottom: 30px;
+    border: var(--border);
 }
 
 .section-title {
     color: var(--primary-color);
     margin-bottom: 20px;
-    border-bottom: 2px solid var(--light-gray);
+    border-bottom: 2px solid var(--primary-color);
     padding-bottom: 10px;
 }
 
@@ -111,56 +115,61 @@ footer {
 /* 버튼 스타일 */
 .btn {
     padding: 8px 15px;
-    border: none;
+    border: 1px solid transparent;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
+    border: 1px solid #e05e66;
 }
 
 .btn-primary:hover {
-    background-color: #45a049;
+    background-color: #e05e66;
 }
 
 .btn-secondary {
     background-color: var(--secondary-color);
     color: white;
+    border: 1px solid #384b33;
 }
 
 .btn-secondary:hover {
-    background-color: #0b7dda;
+    background-color: #384b33;
 }
 
 #writeBtn {
     background-color: var(--primary-color);
     color: white;
+    border: 1px solid #e05e66;
 }
 
 #writeBtn:hover {
-    background-color: #45a049;
+    background-color: #e05e66;
 }
 
 .submit-btn {
     background-color: var(--primary-color);
     color: white;
+    border: 1px solid #e05e66;
 }
 
 .submit-btn:hover {
-    background-color: #45a049;
+    background-color: #e05e66;
 }
 
 .cancel-btn {
     background-color: var(--accent-color);
     color: white;
+    border: 1px solid #363f61;
 }
 
 .cancel-btn:hover {
-    background-color: #d32f2f;
+    background-color: #363f61;
 }
 
 /* 홈페이지 메인 */
@@ -200,7 +209,7 @@ footer {
 }
 
 .cta-button:hover {
-    background-color: #45a049;
+    background-color: #e05e66;
 }
 
 /* 주요 활동 섹션 */
@@ -216,6 +225,7 @@ footer {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: transform 0.3s;
+    border: var(--border);
 }
 
 .activity-card:hover {
@@ -249,6 +259,7 @@ footer {
     padding: 15px;
     border-radius: 8px;
     box-shadow: var(--shadow);
+    border: var(--border);
 }
 
 .news-item h3 {
@@ -316,7 +327,7 @@ footer {
 
 .filter-btn {
     background-color: #f5f5f5;
-    border: 1px solid #ddd;
+    border: 1px solid var(--primary-color);
     padding: 8px 15px;
     margin: 0 5px 10px;
     border-radius: 4px;
@@ -327,7 +338,7 @@ footer {
 .filter-btn:hover, .filter-btn.active {
     background-color: var(--primary-color);
     color: white;
-    border-color: var(--primary-color);
+    border-color: #e05e66;
 }
 
 /* 비디오 갤러리 */
@@ -427,7 +438,7 @@ footer {
     left: 120px;
     width: 3px;
     background-color: var(--primary-color);
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 .timeline-item {
@@ -583,9 +594,10 @@ footer {
 .board-section {
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     padding: 20px;
     margin-bottom: 30px;
+    border: var(--border);
 }
 
 .board-header {
@@ -599,16 +611,17 @@ footer {
 table {
     width: 100%;
     border-collapse: collapse;
+    border: var(--border);
 }
 
 th, td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--primary-color);
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: rgba(247, 110, 119, 0.1);
     font-weight: bold;
 }
 
@@ -621,9 +634,10 @@ tbody tr:hover {
 .write-form, .edit-form, .post-view {
     background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     padding: 20px;
     margin-bottom: 30px;
+    border: var(--border);
 }
 
 .form-group {
@@ -643,7 +657,7 @@ textarea,
 select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--primary-color);
     border-radius: 4px;
     font-family: inherit;
 }
@@ -725,6 +739,7 @@ select {
     overflow: hidden;
     box-shadow: var(--shadow);
     text-align: center;
+    border: var(--border);
 }
 
 .member-img {
@@ -733,7 +748,7 @@ select {
     object-fit: cover;
     border-radius: 50%;
     margin: 20px auto 15px;
-    border: 5px solid rgba(76, 175, 80, 0.2);
+    border: 5px solid rgba(247, 110, 119, 0.3);
 }
 
 .member-info {

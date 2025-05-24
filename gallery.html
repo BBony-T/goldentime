@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>갤러리 - 푸른빛 보건동아리</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-link {
+            background-color: #f0f8ff;
+            border-radius: 4px;
+            padding: 3px 8px !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+        
+        .admin-footer-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background-color: #f0f8ff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .admin-footer-btn:hover {
+            background-color: #e6f2ff;
+        }
+        
+        .admin-logged-in {
+            background-color: rgba(247, 110, 119, 0.2);
+            border-color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,6 +47,7 @@
                     <li><a href="activities.html">활동 소개</a></li>
                     <li><a href="board.html">게시판</a></li>
                     <li><a href="gallery.html" class="active">갤러리</a></li>
+                    <li><a href="admin.html" class="admin-link">관리자</a></li>
                 </ul>
             </nav>
         </header>
@@ -136,11 +167,35 @@
         
         <footer>
             <p>&copy; 2023 푸른빛 보건동아리. All rights reserved.</p>
-            <p>문의: health.club@school.edu | 전화: 02-123-4567</p>
+            <p id="footerContact">문의: health.club@school.edu | 전화: 02-123-4567</p>
+            <p class="text-center">
+                <a href="admin.html" class="admin-footer-btn" id="adminFooterBtn">관리자 페이지</a>
+            </p>
         </footer>
     </div>
     
     <script src="script.js"></script>
     <script src="gallery.js"></script>
+    <script>
+        // 로컬 스토리지에서 관리자 데이터 가져오기
+        document.addEventListener('DOMContentLoaded', () => {
+            const adminData = JSON.parse(localStorage.getItem('adminData'));
+            if (adminData && adminData.contact) {
+                // 푸터 연락처 정보 업데이트
+                document.getElementById('footerContact').textContent = `문의: ${adminData.contact.email} | 전화: ${adminData.contact.phone}`;
+            }
+            
+            // 관리자 링크 스타일 변경 (로그인 상태에 따라)
+            const isAdmin = sessionStorage.getItem('adminLoggedIn');
+            const adminLink = document.querySelector('.admin-link');
+            const adminFooterBtn = document.getElementById('adminFooterBtn');
+            
+            if (isAdmin) {
+                adminLink.classList.add('admin-logged-in');
+                adminFooterBtn.classList.add('admin-logged-in');
+                adminFooterBtn.textContent = '관리자 페이지 (로그인됨)';
+            }
+        });
+    </script>
 </body>
 </html> 

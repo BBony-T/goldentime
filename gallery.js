@@ -1,5 +1,13 @@
 // 갤러리 필터링 기능
 document.addEventListener('DOMContentLoaded', () => {
+    // 로컬 스토리지에서 관리자 데이터 가져오기
+    const adminData = JSON.parse(localStorage.getItem('adminData')) || { gallery: [] };
+    
+    // 관리자가 추가한 갤러리 항목이 있다면 페이지에 추가
+    if (adminData.gallery && adminData.gallery.length > 0) {
+        loadGalleryItems(adminData.gallery);
+    }
+    
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
     
@@ -15,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const filterValue = button.getAttribute('data-filter');
             
             // 갤러리 아이템 필터링
-            galleryItems.forEach(item => {
+            document.querySelectorAll('.gallery-item').forEach(item => {
                 if (filterValue === 'all') {
                     item.style.display = 'block';
                 } else {
@@ -30,7 +38,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // 갤러리 아이템 클릭 이벤트 (모달 기능)
-    galleryItems.forEach(item => {
+    setupGalleryItemEvents();
+});
+
+// 관리자가 추가한 갤러리 항목을 페이지에 로드하는 함수
+function loadGalleryItems(galleryItems) {
+    const galleryGrid = document.querySelector('.gallery-grid');
+    
+    // 날짜순으로 정렬 (최신순)
+    const sortedItems = [...galleryItems].sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    sortedItems.forEach(item => {
+        // 날짜 포맷팅 (YYYY-MM-DD -> YYYY.MM.DD)
+        const dateParts = item.date.split('-');
+        const formattedDate = `${dateParts[0]}.${dateParts[1]}.${dateParts[2]}`;
+        
+        // 새로운 갤러리 아이템 생성
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.setAttribute('data-category', item.category);
+        
+        galleryItem.innerHTML = `
+            <img src="${item.imageData}" alt="${item.title}" class="gallery-img">
+            <div class="gallery-caption">
+                <h3>${item.title}</h3>
+                <p>${formattedDate} | ${item.location}</p>
+            </div>
+        `;
+        
+        // 갤러리 그리드에 아이템 추가
+        galleryGrid.appendChild(galleryItem);
+    });
+    
+    // 모달 이벤트 설정
+    setupGalleryItemEvents();
+}
+
+// 갤러리 아이템 클릭 이벤트 설정 함수
+function setupGalleryItemEvents() {
+    document.querySelectorAll('.gallery-item').forEach(item => {
         item.addEventListener('click', () => {
             const imgSrc = item.querySelector('.gallery-img').getAttribute('src');
             const caption = item.querySelector('.gallery-caption h3').textContent;
@@ -39,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showImageModal(imgSrc, caption, desc);
         });
     });
-});
+}
 
 // 이미지 모달 표시 함수
 function showImageModal(imgSrc, caption, desc) {
