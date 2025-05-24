@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지 - 푸른빛 보건동아리</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .admin-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        .admin-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>푸른빛 보건동아리</h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="about.html">동아리 소개</a></li>
+                    <li><a href="activities.html">활동 소개</a></li>
+                    <li><a href="board.html">게시판</a></li>
+                    <li><a href="gallery.html">갤러리</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="page-title">
+                <h2>관리자 페이지</h2>
+            </div>
+            
+            <!-- 로그인 폼 -->
+            <div id="loginSection" class="login-form">
+                <h3>관리자 로그인</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="adminId">아이디</label>
+                        <input type="text" id="adminId" name="adminId" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPw">비밀번호</label>
+                        <input type="password" id="adminPw" name="adminPw" required>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 관리자 컨텐츠 (로그인 후 표시) -->
+            <div id="adminContent" class="hidden">
+                <div class="admin-tabs">
+                    <div class="admin-tab active" data-tab="aboutTab">동아리 소개</div>
+                    <div class="admin-tab" data-tab="contactTab">연락처 정보</div>
+                    <div class="admin-tab" data-tab="scheduleTab">동아리 일정</div>
+                    <div class="admin-tab" data-tab="newsTab">공지사항</div>
+                </div>
+                
+                <!-- 동아리 소개 관리 -->
+                <div id="aboutTab" class="tab-content active admin-section">
+                    <h3>동아리 소개 관리</h3>
+                    <form id="aboutForm">
+                        <div class="form-group">
+                            <label for="clubIntro">동아리 소개글</label>
+                            <textarea id="clubIntro" rows="5" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="clubGoals">동아리 목표</label>
+                            <textarea id="clubGoals" rows="5" class="form-control"></textarea>
+                            <small>각 목표를 새 줄로 구분하세요.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="clubActivities">활동 분야</label>
+                            <textarea id="clubActivities" rows="5" class="form-control"></textarea>
+                            <small>각 활동을 새 줄로 구분하세요.</small>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">저장</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 연락처 정보 관리 -->
+                <div id="contactTab" class="tab-content admin-section">
+                    <h3>연락처 정보 관리</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="clubEmail">이메일</label>
+                            <input type="email" id="clubEmail" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="clubPhone">전화번호</label>
+                            <input type="text" id="clubPhone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="clubSocial">소셜 미디어</label>
+                            <input type="text" id="clubSocial" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="clubAddress">활동 장소</label>
+                            <input type="text" id="clubAddress" class="form-control">
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">저장</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 동아리 일정 관리 -->
+                <div id="scheduleTab" class="tab-content admin-section">
+                    <h3>동아리 일정 관리</h3>
+                    <div class="mb-3">
+                        <button id="addScheduleBtn" class="btn btn-primary">일정 추가</button>
+                    </div>
+                    <table id="scheduleTable">
+                        <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>일정</th>
+                                <th>장소</th>
+                                <th>관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scheduleList">
+                            <!-- 일정 목록이 여기에 추가됩니다 -->
+                        </tbody>
+                    </table>
+                    
+                    <!-- 일정 추가/수정 폼 -->
+                    <div id="scheduleForm" class="hidden mt-3">
+                        <h4 id="scheduleFormTitle">일정 추가</h4>
+                        <form id="scheduleEditForm">
+                            <input type="hidden" id="scheduleId">
+                            <div class="form-group">
+                                <label for="scheduleDate">날짜</label>
+                                <input type="date" id="scheduleDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="scheduleTitle">일정</label>
+                                <input type="text" id="scheduleTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="scheduleLocation">장소</label>
+                                <input type="text" id="scheduleLocation" required>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary">저장</button>
+                                <button type="button" id="cancelScheduleBtn" class="btn cancel-btn">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 공지사항 관리 -->
+                <div id="newsTab" class="tab-content admin-section">
+                    <h3>공지사항 관리</h3>
+                    <div class="mb-3">
+                        <button id="addNewsBtn" class="btn btn-primary">공지 추가</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>제목</th>
+                                <th>관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="newsList">
+                            <!-- 공지사항 목록이 여기에 추가됩니다 -->
+                        </tbody>
+                    </table>
+                    
+                    <!-- 공지사항 추가/수정 폼 -->
+                    <div id="newsForm" class="hidden mt-3">
+                        <h4 id="newsFormTitle">공지사항 추가</h4>
+                        <form id="newsEditForm">
+                            <input type="hidden" id="newsId">
+                            <div class="form-group">
+                                <label for="newsDate">날짜</label>
+                                <input type="date" id="newsDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newsTitle">제목</label>
+                                <input type="text" id="newsTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newsContent">내용</label>
+                                <textarea id="newsContent" rows="5" required></textarea>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary">저장</button>
+                                <button type="button" id="cancelNewsBtn" class="btn cancel-btn">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="form-buttons mb-3">
+                    <button id="logoutBtn" class="btn cancel-btn">로그아웃</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 푸른빛 보건동아리. All rights reserved.</p>
+            <p>문의: health.club@school.edu | 전화: 02-123-4567</p>
+        </footer>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html> 

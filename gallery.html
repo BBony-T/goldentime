@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>갤러리 - 푸른빛 보건동아리</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>푸른빛 보건동아리</h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="about.html">동아리 소개</a></li>
+                    <li><a href="activities.html">활동 소개</a></li>
+                    <li><a href="board.html">게시판</a></li>
+                    <li><a href="gallery.html" class="active">갤러리</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="page-title">
+                <h2>갤러리</h2>
+            </div>
+            
+            <section class="section">
+                <h2 class="section-title">활동 사진</h2>
+                <div class="gallery-filter">
+                    <button class="filter-btn active" data-filter="all">전체</button>
+                    <button class="filter-btn" data-filter="first-aid">응급처치</button>
+                    <button class="filter-btn" data-filter="campaign">캠페인</button>
+                    <button class="filter-btn" data-filter="volunteer">봉사활동</button>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="first-aid">
+                        <img src="images/gallery1.jpg" alt="CPR 교육" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>CPR 교육</h3>
+                            <p>2023.04.15 | 동아리실</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="first-aid">
+                        <img src="images/gallery2.jpg" alt="응급처치 경연대회" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>응급처치 경연대회</h3>
+                            <p>2022.11.20 | 체육관</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="campaign">
+                        <img src="images/gallery3.jpg" alt="눈 건강 캠페인" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>눈 건강 캠페인</h3>
+                            <p>2023.05.10 | 학생회관</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="campaign">
+                        <img src="images/gallery4.jpg" alt="손 씻기 캠페인" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>손 씻기 캠페인</h3>
+                            <p>2022.10.15 | 급식실 앞</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="volunteer">
+                        <img src="images/gallery5.jpg" alt="노인복지관 봉사" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>노인복지관 봉사</h3>
+                            <p>2023.04.29 | 무지개 노인복지관</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="volunteer">
+                        <img src="images/gallery6.jpg" alt="지역축제 건강부스" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>지역축제 건강부스</h3>
+                            <p>2022.08.20 | 시민공원</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="first-aid">
+                        <img src="images/gallery7.jpg" alt="붕대 실습" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>붕대 실습</h3>
+                            <p>2023.03.28 | 보건실</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="campaign">
+                        <img src="images/gallery8.jpg" alt="건강 식습관 캠페인" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>건강 식습관 캠페인</h3>
+                            <p>2022.06.12 | 학생회관</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item" data-category="volunteer">
+                        <img src="images/gallery9.jpg" alt="초등학교 위생교육" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h3>초등학교 위생교육</h3>
+                            <p>2023.05.25 | 푸른 초등학교</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2 class="section-title">동영상</h2>
+                <div class="video-gallery">
+                    <div class="video-item">
+                        <iframe width="100%" height="250" src="https://www.youtube.com/embed/VIDEO_ID_1" title="응급처치 교육 영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h3>심폐소생술(CPR) 교육 영상</h3>
+                        <p>동아리에서 제작한 심폐소생술 교육 영상입니다.</p>
+                    </div>
+                    
+                    <div class="video-item">
+                        <iframe width="100%" height="250" src="https://www.youtube.com/embed/VIDEO_ID_2" title="건강 캠페인 영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h3>손 씻기 캠페인 홍보 영상</h3>
+                        <p>올바른 손 씻기 방법에 대한 홍보 영상입니다.</p>
+                    </div>
+                    
+                    <div class="video-item">
+                        <iframe width="100%" height="250" src="https://www.youtube.com/embed/VIDEO_ID_3" title="봉사활동 영상" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <h3>2022년 활동 하이라이트</h3>
+                        <p>2022년 동아리 활동을 담은 하이라이트 영상입니다.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 푸른빛 보건동아리. All rights reserved.</p>
+            <p>문의: health.club@school.edu | 전화: 02-123-4567</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="gallery.js"></script>
+</body>
+</html> 
