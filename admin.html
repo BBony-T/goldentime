@@ -19,6 +19,7 @@
             display: flex;
             border-bottom: 1px solid var(--primary-color);
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
         .admin-tab {
@@ -27,6 +28,7 @@
             border: 1px solid transparent;
             border-bottom: none;
             margin-right: 5px;
+            margin-bottom: 5px;
             border-radius: 4px 4px 0 0;
             transition: all 0.3s;
         }
@@ -145,6 +147,7 @@
                     <li><a href="activities.html">활동 소개</a></li>
                     <li><a href="board.html">게시판</a></li>
                     <li><a href="gallery.html">갤러리</a></li>
+                    <li><a href="admin.html" class="admin-link admin-logged-in">관리자</a></li>
                 </ul>
             </nav>
         </header>
@@ -175,11 +178,31 @@
             <!-- 관리자 컨텐츠 (로그인 후 표시) -->
             <div id="adminContent" class="hidden">
                 <div class="admin-tabs">
+                    <div class="admin-tab" data-tab="siteTab">사이트 설정</div>
                     <div class="admin-tab active" data-tab="aboutTab">동아리 소개</div>
                     <div class="admin-tab" data-tab="contactTab">연락처 정보</div>
                     <div class="admin-tab" data-tab="scheduleTab">동아리 일정</div>
                     <div class="admin-tab" data-tab="newsTab">공지사항</div>
                     <div class="admin-tab" data-tab="galleryTab">갤러리 관리</div>
+                </div>
+                
+                <div class="text-right mb-2">
+                    <button id="logoutBtn" class="btn btn-secondary">로그아웃</button>
+                </div>
+                
+                <!-- 사이트 설정 -->
+                <div id="siteTab" class="tab-content admin-section">
+                    <h3>사이트 설정</h3>
+                    <form id="siteForm">
+                        <div class="form-group">
+                            <label for="siteTitle">동아리 이름 (홈페이지 제목)</label>
+                            <input type="text" id="siteTitle" class="form-control">
+                            <small>모든 페이지의 헤더에 표시되는 동아리 이름입니다.</small>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">저장</button>
+                        </div>
+                    </form>
                 </div>
                 
                 <!-- 동아리 소개 관리 -->
@@ -376,19 +399,15 @@
                         <!-- 갤러리 아이템이 여기에 표시됩니다 -->
                     </div>
                 </div>
-                
-                <div class="form-buttons mb-3">
-                    <button id="logoutBtn" class="btn cancel-btn">로그아웃</button>
-                </div>
             </div>
         </main>
         
         <footer>
-            <p>&copy; 2023 푸른빛 보건동아리. All rights reserved.</p>
-            <p>문의: health.club@school.edu | 전화: 02-123-4567</p>
+            <p>&copy; 2023 푸른빛 보건동아리 All Rights Reserved. <a href="#" id="resetDataBtn" class="admin-footer-btn">데이터 초기화</a></p>
         </footer>
     </div>
     
     <script src="admin.js"></script>
+    <script src="common.js"></script>
 </body>
 </html> 

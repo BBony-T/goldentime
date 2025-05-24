@@ -776,6 +776,10 @@ select {
     text-align: center;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .mb-1 {
     margin-bottom: 10px;
 }

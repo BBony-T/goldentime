@@ -5,6 +5,8 @@ let adminData = JSON.parse(localStorage.getItem('adminData')) || {
         id: 'admin',
         password: '1234' // 실제 사용할 때는 암호화된 비밀번호를 사용해야 함
     },
+    // 사이트 제목
+    siteTitle: '푸른빛 보건동아리',
     // 동아리 소개
     about: {
         intro: '푸른빛 보건동아리는 2015년에 설립되어 건강과 의료에 관심 있는 고등학생들이 모여 활동하는 동아리입니다. 우리는 건강한 학교 공동체와 지역사회 조성을 목표로 다양한 보건 관련 활동을 진행하고 있습니다.',
@@ -90,31 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
     const adminTabs = document.querySelectorAll('.admin-tab');
     
+    // 관리자 로그인 상태 확인
+    checkLoginStatus();
+    
     // 페이지 초기화
     initializePage();
     
     // 로그인 폼 제출 이벤트
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        const adminId = document.getElementById('adminId').value;
-        const adminPw = document.getElementById('adminPw').value;
-        
-        // 관리자 계정 확인
-        if (adminId === adminData.adminAccount.id && adminPw === adminData.adminAccount.password) {
-            // 로그인 성공
-            loginSection.classList.add('hidden');
-            adminContent.classList.remove('hidden');
-            
-            // 세션 스토리지에 로그인 상태 저장 (페이지 이동 시 유지)
-            sessionStorage.setItem('adminLoggedIn', 'true');
-            
-            // 폼 초기화
-            loadAdminData();
-        } else {
-            // 로그인 실패
-            alert('아이디 또는 비밀번호가 올바르지 않습니다.');
-        }
+        login();
     });
     
     // 로그아웃 버튼 이벤트
@@ -145,43 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // 동아리 소개 폼 제출 이벤트
     document.getElementById('aboutForm').addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        // 폼 데이터 가져오기
-        const intro = document.getElementById('clubIntro').value;
-        const goals = document.getElementById('clubGoals').value.split('\n').filter(Boolean);
-        const activities = document.getElementById('clubActivities').value.split('\n').filter(Boolean);
-        
-        // 데이터 저장
-        adminData.about.intro = intro;
-        adminData.about.goals = goals;
-        adminData.about.activities = activities;
-        
-        // 로컬 스토리지에 저장
-        saveAdminData();
-        
-        alert('동아리 소개가 저장되었습니다.');
+        saveAboutInfo();
     });
     
     // 연락처 정보 폼 제출 이벤트
     document.getElementById('contactForm').addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        // 폼 데이터 가져오기
-        const email = document.getElementById('clubEmail').value;
-        const phone = document.getElementById('clubPhone').value;
-        const social = document.getElementById('clubSocial').value;
-        const location = document.getElementById('clubAddress').value;
-        
-        // 데이터 저장
-        adminData.contact.email = email;
-        adminData.contact.phone = phone;
-        adminData.contact.social = social;
-        adminData.contact.location = location;
-        
-        // 로컬 스토리지에 저장
-        saveAdminData();
-        
-        alert('연락처 정보가 저장되었습니다.');
+        saveContactInfo();
     });
     
     // 일정 추가 버튼 이벤트
@@ -387,6 +344,19 @@ document.addEventListener('DOMContentLoaded', () => {
             processForm(null);
         }
     });
+    
+    // 데이터 초기화 버튼
+    if(document.getElementById('resetDataBtn')) {
+        document.getElementById('resetDataBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if(confirm('모든 데이터를 초기값으로 되돌리시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                resetAdminData();
+            }
+        });
+    }
+    
+    // 관리자 페이지 초기화
+    initAdminPage();
 });
 
 // 페이지 초기화 함수
@@ -623,4 +593,225 @@ function formatDate(dateStr) {
     if (!dateStr) return '';
     const dateParts = dateStr.split('-');
     return `${dateParts[0]}.${dateParts[1]}.${dateParts[2]}`;
+}
+
+// 사이트 설정 저장
+function saveSiteSettings() {
+    const siteTitle = document.getElementById('siteTitle').value.trim();
+    
+    if (siteTitle) {
+        adminData.siteTitle = siteTitle;
+        localStorage.setItem('adminData', JSON.stringify(adminData));
+        alert('사이트 설정이 저장되었습니다.');
+    } else {
+        alert('동아리 이름을 입력해주세요.');
+    }
+}
+
+// 관리자 페이지 초기화
+function initAdminPage() {
+    if (isLoggedIn()) {
+        // 동아리 소개 정보 로드
+        if(document.getElementById('clubIntro')) {
+            document.getElementById('clubIntro').value = adminData.about.intro;
+            document.getElementById('clubGoals').value = adminData.about.goals.join('\n');
+            document.getElementById('clubActivities').value = adminData.about.activities.join('\n');
+        }
+        
+        // 사이트 설정 로드
+        if(document.getElementById('siteTitle')) {
+            document.getElementById('siteTitle').value = adminData.siteTitle || '푸른빛 보건동아리';
+        }
+        
+        // 연락처 정보 로드
+        if(document.getElementById('clubEmail')) {
+            document.getElementById('clubEmail').value = adminData.contact?.email || '';
+            document.getElementById('clubPhone').value = adminData.contact?.phone || '';
+            document.getElementById('clubAddress').value = adminData.contact?.location || '';
+        }
+        
+        // 갤러리 이미지 로드
+        loadGalleryImages();
+    }
+}
+
+// 데이터 초기화
+function resetAdminData() {
+    // 기본 관리자 데이터
+    adminData = {
+        // 기본 관리자 계정
+        adminAccount: {
+            id: 'admin',
+            password: '1234'
+        },
+        // 사이트 제목
+        siteTitle: '푸른빛 보건동아리',
+        // 동아리 소개
+        about: {
+            intro: '푸른빛 보건동아리는 2015년에 설립되어 건강과 의료에 관심 있는 고등학생들이 모여 활동하는 동아리입니다. 우리는 건강한 학교 공동체와 지역사회 조성을 목표로 다양한 보건 관련 활동을 진행하고 있습니다.',
+            goals: [
+                '건강과 의학에 관한 지식 함양 및 공유',
+                '응급처치 및 안전 관련 능력 배양',
+                '학교와 지역사회의 건강 증진 활동 참여',
+                '보건 의료계 진로 탐색 및 경험 제공'
+            ],
+            activities: [
+                '응급처치 교육 및 실습',
+                '건강 캠페인 기획 및 운영',
+                '지역사회 보건 봉사활동',
+                '의학 및 건강 관련 주제 탐구',
+                '건강 관련 정보지 발간'
+            ]
+        },
+        // 연락처 정보
+        contact: {
+            email: 'health.club@school.edu',
+            phone: '02-123-4567',
+            address: '서울시 강남구 테헤란로 123'
+        },
+        // 갤러리 이미지
+        galleryImages: []
+    };
+    
+    // 로컬 스토리지에 저장
+    localStorage.setItem('adminData', JSON.stringify(adminData));
+    
+    // 세션 스토리지 초기화
+    sessionStorage.removeItem('adminLoggedIn');
+    
+    alert('모든 데이터가 초기화되었습니다. 페이지를 새로고침합니다.');
+    
+    // 페이지 새로고침
+    window.location.reload();
+}
+
+// 로그인 상태 확인
+function checkLoginStatus() {
+    const loginSection = document.getElementById('loginSection');
+    const adminContent = document.getElementById('adminContent');
+    
+    if (isLoggedIn()) {
+        // 로그인 되어 있음
+        if (loginSection) loginSection.classList.add('hidden');
+        if (adminContent) adminContent.classList.remove('hidden');
+        
+        // 관리자 페이지 초기화
+        initAdminPage();
+    } else {
+        // 로그인 되어 있지 않음
+        if (loginSection) loginSection.classList.remove('hidden');
+        if (adminContent) adminContent.classList.add('hidden');
+    }
+}
+
+// 로그인 여부 확인
+function isLoggedIn() {
+    return sessionStorage.getItem('adminLoggedIn') === 'true';
+}
+
+// 로그인 처리
+function login() {
+    const adminId = document.getElementById('adminId').value;
+    const adminPw = document.getElementById('adminPw').value;
+    
+    // 관리자 계정 확인
+    if (adminId === adminData.adminAccount.id && adminPw === adminData.adminAccount.password) {
+        // 로그인 성공
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        checkLoginStatus();
+    } else {
+        // 로그인 실패
+        alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+    }
+}
+
+// 로그아웃 처리
+function logout() {
+    sessionStorage.removeItem('adminLoggedIn');
+    checkLoginStatus();
+}
+
+// 동아리 소개 정보 저장
+function saveAboutInfo() {
+    const intro = document.getElementById('clubIntro').value;
+    const goals = document.getElementById('clubGoals').value.split('\n').filter(Boolean);
+    const activities = document.getElementById('clubActivities').value.split('\n').filter(Boolean);
+    
+    // 데이터 저장
+    adminData.about.intro = intro;
+    adminData.about.goals = goals;
+    adminData.about.activities = activities;
+    
+    // 로컬 스토리지에 저장
+    localStorage.setItem('adminData', JSON.stringify(adminData));
+    
+    alert('동아리 소개가 저장되었습니다.');
+}
+
+// 연락처 정보 저장
+function saveContactInfo() {
+    const email = document.getElementById('clubEmail').value;
+    const phone = document.getElementById('clubPhone').value;
+    const address = document.getElementById('clubAddress').value;
+    
+    // 연락처 객체가 없으면 생성
+    if (!adminData.contact) {
+        adminData.contact = {};
+    }
+    
+    // 데이터 저장
+    adminData.contact.email = email;
+    adminData.contact.phone = phone;
+    adminData.contact.address = address;
+    
+    // 로컬 스토리지에 저장
+    localStorage.setItem('adminData', JSON.stringify(adminData));
+    
+    alert('연락처 정보가 저장되었습니다.');
+}
+
+// 갤러리 이미지 로드
+function loadGalleryImages() {
+    const galleryPreviewContainer = document.getElementById('galleryPreviewContainer');
+    if (!galleryPreviewContainer) return;
+    
+    // 기존 내용 삭제
+    galleryPreviewContainer.innerHTML = '';
+    
+    // 갤러리 이미지가 없으면 메시지 표시
+    if (!adminData.galleryImages || adminData.galleryImages.length === 0) {
+        galleryPreviewContainer.innerHTML = '<p>등록된 이미지가 없습니다.</p>';
+        return;
+    }
+    
+    // 이미지 표시
+    adminData.galleryImages.forEach((image, index) => {
+        const container = document.createElement('div');
+        container.className = 'gallery-preview-container';
+        
+        const img = document.createElement('img');
+        img.src = image.src;
+        img.alt = image.title;
+        img.className = 'gallery-preview';
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerHTML = '×';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', function() {
+            deleteGalleryImage(index);
+        });
+        
+        container.appendChild(img);
+        container.appendChild(deleteBtn);
+        galleryPreviewContainer.appendChild(container);
+    });
+}
+
+// 갤러리 이미지 삭제
+function deleteGalleryImage(index) {
+    if (confirm('이미지를 삭제하시겠습니까?')) {
+        adminData.galleryImages.splice(index, 1);
+        localStorage.setItem('adminData', JSON.stringify(adminData));
+        loadGalleryImages();
+    }
 } 
